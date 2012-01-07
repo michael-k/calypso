@@ -38,6 +38,7 @@ import os
 import posixpath
 import base64
 import socket
+import time
 # Manage Python2/3 different modules
 # pylint: disable=F0401
 try:
@@ -236,7 +237,7 @@ class CollectionHTTPHandler(server.BaseHTTPRequestHandler):
         self.send_response(client.OK)
         self.send_header("Content-Length", len(self._answer))
         self.send_header("Content-Type", "text/calendar")
-        self.send_header("Last-Modified", self._collection.last_modified)
+        self.send_header("Last-Modified", time.strftime("%a, %d %b %Y %H:%M:%S +0000",self._collection.last_modified))
         self.send_header("ETag", etag)
         self.end_headers()
 
