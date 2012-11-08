@@ -107,3 +107,38 @@ def collection_from_path(path):
     log.debug('Path %s results in collection: %s', path, collection)
     return collection
     
+class UrlPath(object):
+
+    def __init__(self, path):
+        parts = urllib.unquote(path.strip("/")).split("/", 2)
+
+        self.principal = None
+        self.collection = None
+        self.resource = None
+        if len(parts) > 0:
+            self.principal = parts[0]
+            if len(parts) > 1:
+                self.collection = parts[1]
+                if len(parts) > 2:
+                    self.resource = parts[2]
+        print "UrlPath %s %s %s" % (self.principal, self.collection, self.resource)
+
+    def dir(self):
+        e=[]
+        if self.principal:
+            e.append(self.principal)
+        if self.collection:
+            e.append(self.collection)
+        return url_to_file("/".join(e))
+
+    def __str(self):
+        e=[]
+        if self.principal:
+            e.append(self.principal)
+        if self.collection:
+            e.append(self.collection)
+        if self.resource:
+            e.append(self.resource)
+        return urllib.quote("/".join(e))
+
+    

@@ -184,6 +184,9 @@ class CollectionHTTPHandler(server.BaseHTTPRequestHandler):
     @property
     def _collection(self):
         """The ``webdav.Collection`` object corresponding to the given path."""
+
+        self.url_path = paths.UrlPath(self.path)
+
         path = paths.collection_from_path(self.path)
         if not path:
             return None
@@ -228,6 +231,7 @@ class CollectionHTTPHandler(server.BaseHTTPRequestHandler):
     def do_HEAD(self, context):
         """Manage HEAD request."""
         try:
+            u = paths.UrlPath(self.path)
             item_name = paths.resource_from_path(self.path)
             if item_name:
                 # Get collection item
