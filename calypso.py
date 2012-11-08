@@ -83,7 +83,16 @@ parser.add_option(
 parser.add_option(
     "-i", "--import", dest="import_dest")
 parser.add_option(
-    "-g", "--debug", action="store_true",
+    "-a", "--access", dest="access_file",
+    default=calypso.config.get("server", "access"),
+    help="access control file ")
+parser.add_option(
+    "-g", "--group", dest="group_file",
+    default=calypso.config.get("server", "group"),
+    help="group definition file ")
+
+parser.add_option(
+    "-D", "--debug", action="store_true",
     default=False,
     help="enable debug logging")
     

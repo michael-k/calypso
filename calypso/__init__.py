@@ -55,7 +55,7 @@ except ImportError:
     import BaseHTTPServer as server
 # pylint: enable=F0401
 
-from . import acl, config, webdav, xmlutils, paths
+from . import acl, config, webdav, xmlutils, paths, group, access, collection
 
 log = logging.getLogger()
 ch = logging.StreamHandler()
@@ -175,8 +175,11 @@ class CollectionHTTPHandler(server.BaseHTTPRequestHandler):
             self.close_connection = 1
             return
 
-
     collections = {}
+
+    accesses = access.AccessList(config.get("server", "access"))
+    groups = group.GroupList(config.get("server", "group"))
+    owners = collection.Owners(config.get("storage", "folder"))
 
     @property
     def _collection(self):
